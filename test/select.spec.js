@@ -1964,6 +1964,23 @@ describe('ui-select tests', function() {
 
     });
 
+    it('should update size of search input relative to the padding of the container', function() {
+
+        var el = createUiSelectMultiple();
+
+        el.appendTo('body'); // Have to append to DOM to getComputedStyle
+
+        el.css('padding-left', '500px');
+        var searchInput = el.find('.ui-select-search');
+
+        triggerKeydown(searchInput, Key.Down);
+        $timeout.flush();
+        expect(searchInput.css('width')).toBe('292px');
+
+        el.remove(); // Remove from DOM
+
+    });
+
     it('should move to last match when pressing BACKSPACE key from search', function() {
 
         var el = createUiSelectMultiple();
@@ -3107,7 +3124,7 @@ describe('ui-select tests', function() {
 
   describe('Test Spinner for promises',function(){
     var deferred;
-    
+
     function getFromServer(){
         deferred = $q.defer();
         return deferred.promise;
@@ -3130,14 +3147,14 @@ describe('ui-select tests', function() {
     it('should have set a custom class value of randomclass', function () {
       var control = createUiSelect({spinnerClass: 'randomclass'});
       expect(control.scope().$select.spinnerClass).toEqual('randomclass');
-    });   
+    });
 
     it('should not display spinner when disabled', function() {
       scope.getFromServer = getFromServer;
       var el = createUiSelect({theme: 'bootstrap', refresh:"getFromServer($select.search)", refreshDelay:0});
       openDropdown(el);
       var spinner = el.find('.ui-select-refreshing');
-      expect(spinner.hasClass('ng-hide')).toBe(true);       
+      expect(spinner.hasClass('ng-hide')).toBe(true);
       setSearchText(el, 'a');
       expect(spinner.hasClass('ng-hide')).toBe(true);
       deferred.resolve();
@@ -3150,7 +3167,7 @@ describe('ui-select tests', function() {
       var el = createUiSelect({spinnerEnabled: true,theme: 'bootstrap', refresh:"getFromServer($select.search)", refreshDelay:0});
       openDropdown(el);
       var spinner = el.find('.ui-select-refreshing');
-      expect(spinner.hasClass('ng-hide')).toBe(true);       
+      expect(spinner.hasClass('ng-hide')).toBe(true);
       setSearchText(el, 'a');
       expect(spinner.hasClass('ng-hide')).toBe(false);
       deferred.resolve();
